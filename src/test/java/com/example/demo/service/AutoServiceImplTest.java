@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.dto.AutoDTO;
 import com.example.demo.entity.Auto;
-import lombok.var;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,8 +9,6 @@ import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
-
-import java.util.Arrays;
 import java.util.HashSet;
 
 import static org.hamcrest.Matchers.is;
@@ -80,9 +77,10 @@ public class AutoServiceImplTest {
 
     @Test
     public void testList() throws Exception {
-        var autoList = (HashSet<Auto>) Arrays.asList(auto);
+        HashSet autoSet = new HashSet();
+        autoSet.add(auto);
         mockMvc.perform(delete("/"))
                 .andExpect(status().isOk());
-        assertThat(autoList, is(autoService.list()));
+        assertThat(autoSet, is(autoService.list()));
     }
 }

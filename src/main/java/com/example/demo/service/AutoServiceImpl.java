@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.dto.AutoDTO;
 import com.example.demo.entity.Auto;
+import org.jooq.DSLContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -12,6 +14,9 @@ import java.util.Set;
 public class AutoServiceImpl implements AutoService {
 
     private Set<Auto> autoList = new HashSet<>();
+
+    @Autowired
+    private DSLContext dsl;
 
     @Override
     public AutoDTO create(AutoDTO autoDTO) {

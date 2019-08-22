@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AutoDTO;
 import com.example.demo.entity.Auto;
-import com.example.demo.service.AutoService;
+import com.example.demo.service.AutoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +14,7 @@ public class AutoController {
 
 
     @Autowired
-    private AutoService autoService;
+    private AutoServiceImpl autoService;
 
     @PostMapping
     public AutoDTO create(AutoDTO autoDTO) {
