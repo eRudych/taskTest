@@ -1,0 +1,14 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="root" id="02">
+        <insert tableName="auto">
+            <column name="brand" value="audi" />
+            <column name="model" value="a4" />
+        </insert>
+        <insert tableName="auto">
+            <column name="brand" value="audi" />
+            <column name="model" value="a6" />
+        </insert>
+    </changeSet>
+</databaseChangeLog>
