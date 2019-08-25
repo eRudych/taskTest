@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AutoDTO {
+public class AutoDTO  {
     private  int id;
     private  String brand;
     private  String model;

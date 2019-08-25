@@ -1,6 +1,5 @@
 package com.example.demo.app;
 
-import com.example.demo.entity.Auto;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.springframework.boot.SpringApplication;

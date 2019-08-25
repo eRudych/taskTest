@@ -1,65 +1,74 @@
 package com.example.demo.service;
 
+import com.example.demo.db.automobiles.tables.pojos.Auto;
 import com.example.demo.dto.AutoDTO;
-import com.example.demo.entity.Auto;
-import org.jooq.DSLContext;
+import com.example.demo.entity.AutoModel;
+import com.example.demo.repositories.AutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class AutoServiceImpl implements AutoService {
 
-    private Set<Auto> autoList = new HashSet<>();
+    private Set<AutoModel> autoList = new HashSet<>();
 
     @Autowired
-    private DSLContext dsl;
+    private AutoRepository autoRepository;
 
     @Override
     public AutoDTO create(AutoDTO autoDTO) {
-        autoList.add(Auto.builder()
+        AutoModel auto = AutoModel.builder()
                 .model(autoDTO.getModel())
                 .brand(autoDTO.getBrand())
-                .build());
+                .build();
+        int autoId = autoRepository.insert(auto);
+        autoList.add(auto);
         return autoDTO;
     }
 
     @Override
     public AutoDTO update(AutoDTO autoDTO) {
-        Auto auto = Auto.builder().id(autoDTO.getId())
+        AutoModel auto = AutoModel.builder()
+                .id(autoDTO.getId())
                 .brand(autoDTO.getBrand())
                 .model(autoDTO.getModel())
                 .build();
-        return this.remove(autoDTO.getId()) && autoList.add(auto) ? autoDTO : new AutoDTO(0, "", "");
+        return autoRepository.update(auto) && this.remove(autoDTO.getId()) && autoList.add(auto) ? autoDTO : new AutoDTO(0, "", "");
     }
 
     @Override
     public boolean remove(int id) {
-        Optional<Auto> firstAuto = findAutoById(id);
-        return firstAuto.isPresent() && autoList.remove(firstAuto.get());
+        Optional<AutoModel> firstAuto = findAutoById(id);
+        return autoRepository.delete(id) && firstAuto.isPresent() && autoList.remove(firstAuto.get());
     }
 
     @Override
-    public Auto select(int id) {
-        Optional<Auto> optionalAuto = findAutoById(id);
-        return optionalAuto.orElseGet(() -> Auto.builder().build());
+    public AutoModel select(int id) {
+        Auto autoDb = autoRepository.selectById(id);
+        return AutoModel.builder().id(autoDb.getId()).model(autoDb.getModel()).brand(autoDb.getBrand()).build();
     }
 
     @Override
-    public Set<Auto> list() {
+    public Set<AutoModel> list() {
         return autoList;
     }
 
-    private Optional<Auto> findFirstAuto(Auto finalAuto) {
+    public List<Auto> listFromDb() {
+        return autoRepository.selectAll();
+    }
+
+    private Optional<AutoModel> findFirstAuto(AutoModel finalAuto) {
         return autoList.stream()
                 .filter(auto -> auto.equals(finalAuto))
                 .findFirst();
     }
 
-    private Optional<Auto> findAutoById(int id) {
+    private Optional<AutoModel> findAutoById(int id) {
         return autoList.stream().filter(auto -> auto.getId() == id).findFirst();
     }
 }

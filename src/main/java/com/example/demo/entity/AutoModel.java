@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Builder
 @Value
-public class Auto implements Serializable {
+public class AutoModel implements Serializable  {
     private final int id;
     private final String brand;
     private final String model;
