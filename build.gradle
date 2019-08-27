@@ -52,22 +52,24 @@ def xml = new groovy.xml.MarkupBuilder(writer).configuration('xmlns': 'http://ww
     generator() {
         database() {
 
+            includes ('auto')
+
         }
 
-        // Watch out for this caveat when using MarkupBuilder with "reserved names"
-        // - https://github.com/jOOQ/jOOQ/issues/4797
-        // - http://stackoverflow.com/a/11389034/521799
-        // - https://groups.google.com/forum/#!topic/jooq-user/wi4S9rRxk4A
-        generate([:]) {
-            pojos true
-            daos true
-        }
-        target() {
-            packageName('com.example.demo.db')
-            directory('src/main/java')
+
+            // Watch out for this caveat when using MarkupBuilder with "reserved names"
+            // - https://github.com/jOOQ/jOOQ/issues/4797
+            // - http://stackoverflow.com/a/11389034/521799
+            // - https://groups.google.com/forum/#!topic/jooq-user/wi4S9rRxk4A
+            generate([:]) {
+
+            }
+            target() {
+                packageName('com.example.demo.db')
+                directory('src/main/java')
+            }
         }
     }
-}
 
 
 // Run the code generator

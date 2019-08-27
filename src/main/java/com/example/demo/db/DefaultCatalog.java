@@ -5,10 +5,6 @@ package com.example.demo.db;
 
 
 import com.example.demo.db.automobiles.Automobiles;
-import com.example.demo.db.information_schema.InformationSchema;
-import com.example.demo.db.mysql.Mysql;
-import com.example.demo.db.performance_schema.PerformanceSchema;
-import com.example.demo.db.sys.Sys;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,32 +29,12 @@ import org.jooq.impl.CatalogImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultCatalog extends CatalogImpl {
 
-    private static final long serialVersionUID = 2007637602;
+    private static final long serialVersionUID = -1475700540;
 
     /**
      * The reference instance of <code></code>
      */
     public static final DefaultCatalog DEFAULT_CATALOG = new DefaultCatalog();
-
-    /**
-     * The schema <code>mysql</code>.
-     */
-    public final Mysql MYSQL = com.example.demo.db.mysql.Mysql.MYSQL;
-
-    /**
-     * The schema <code>information_schema</code>.
-     */
-    public final InformationSchema INFORMATION_SCHEMA = com.example.demo.db.information_schema.InformationSchema.INFORMATION_SCHEMA;
-
-    /**
-     * The schema <code>performance_schema</code>.
-     */
-    public final PerformanceSchema PERFORMANCE_SCHEMA = com.example.demo.db.performance_schema.PerformanceSchema.PERFORMANCE_SCHEMA;
-
-    /**
-     * The schema <code>sys</code>.
-     */
-    public final Sys SYS = com.example.demo.db.sys.Sys.SYS;
 
     /**
      * The schema <code>automobiles</code>.
@@ -81,10 +57,6 @@ public class DefaultCatalog extends CatalogImpl {
 
     private final List<Schema> getSchemas0() {
         return Arrays.<Schema>asList(
-            Mysql.MYSQL,
-            InformationSchema.INFORMATION_SCHEMA,
-            PerformanceSchema.PERFORMANCE_SCHEMA,
-            Sys.SYS,
             Automobiles.AUTOMOBILES);
     }
 }

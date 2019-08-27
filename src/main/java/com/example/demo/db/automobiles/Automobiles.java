@@ -6,8 +6,6 @@ package com.example.demo.db.automobiles;
 
 import com.example.demo.db.DefaultCatalog;
 import com.example.demo.db.automobiles.tables.Auto;
-import com.example.demo.db.automobiles.tables.Databasechangelog;
-import com.example.demo.db.automobiles.tables.Databasechangeloglock;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +31,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Automobiles extends SchemaImpl {
 
-    private static final long serialVersionUID = 2059583044;
+    private static final long serialVersionUID = 61245786;
 
     /**
      * The reference instance of <code>automobiles</code>
@@ -44,16 +42,6 @@ public class Automobiles extends SchemaImpl {
      * The table <code>automobiles.auto</code>.
      */
     public final Auto AUTO = com.example.demo.db.automobiles.tables.Auto.AUTO;
-
-    /**
-     * The table <code>automobiles.databasechangelog</code>.
-     */
-    public final Databasechangelog DATABASECHANGELOG = com.example.demo.db.automobiles.tables.Databasechangelog.DATABASECHANGELOG;
-
-    /**
-     * The table <code>automobiles.databasechangeloglock</code>.
-     */
-    public final Databasechangeloglock DATABASECHANGELOGLOCK = com.example.demo.db.automobiles.tables.Databasechangeloglock.DATABASECHANGELOGLOCK;
 
     /**
      * No further instances allowed
@@ -80,8 +68,6 @@ public class Automobiles extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
-            Auto.AUTO,
-            Databasechangelog.DATABASECHANGELOG,
-            Databasechangeloglock.DATABASECHANGELOGLOCK);
+            Auto.AUTO);
     }
 }

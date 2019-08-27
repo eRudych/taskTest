@@ -5,4 +5,6 @@
              relativeToChangelogFile="true" />
     <include file="changelog/02-insert-data-auto.xml"
              relativeToChangelogFile="true" />
+    <include file="changelog/03-modify-type-id.xml"
+             relativeToChangelogFile="true" />
 </databaseChangeLog>
