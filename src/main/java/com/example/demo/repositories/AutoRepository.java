@@ -17,7 +17,7 @@ public class AutoRepository {
     @Autowired
     private DSLContext dsl;
 
-    public Long insert(AutoModel autoModel) {
+    private Long insert(AutoModel autoModel) {
         AutoRecord authorRecord = dsl.insertInto(auto, auto.BRAND, auto.MODEL)
                 .values(autoModel.getBrand(), autoModel.getModel())
                 .returning(auto.ID)
