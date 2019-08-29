@@ -20,19 +20,20 @@ public class AutoServiceImpl implements AutoService {
     @Override
     @Transactional
     public AutoDTO create(AutoModel auto) {
-        return getAutoDTOById(autoRepository.insert(auto));
+        return AutoDTO.createAutoDTO(autoRepository.create(auto));
     }
 
     @Override
     @Transactional
     public AutoDTO update(AutoModel auto) {
-        return autoRepository.update(auto)  ? getAutoDTOById(auto.getId()) : null;
+        autoRepository.update(auto);
+        return AutoDTO.createAutoDTO(select(auto.getId()));
     }
 
     @Override
     @Transactional
-    public boolean remove(long id) {
-         return autoRepository.delete(id);
+    public void remove(long id) {
+        autoRepository.delete(id);
     }
 
     @Override
@@ -43,10 +44,5 @@ public class AutoServiceImpl implements AutoService {
     @Override
     public List<AutoModel> list() {
         return autoRepository.selectAll();
-    }
-
-
-    private AutoDTO getAutoDTOById(long id){
-        return AutoDTO.createAutoDTO(autoRepository.selectById(id));
     }
 }

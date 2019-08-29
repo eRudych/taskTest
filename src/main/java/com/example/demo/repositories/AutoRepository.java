@@ -4,15 +4,14 @@ import com.example.demo.db.automobiles.tables.Auto;
 import com.example.demo.db.automobiles.tables.records.AutoRecord;
 import com.example.demo.entity.AutoModel;
 import org.jooq.DSLContext;
-import org.jooq.Name;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
 public class AutoRepository {
+
     private final Auto auto = Auto.AUTO;
 
     @Autowired
@@ -23,21 +22,23 @@ public class AutoRepository {
                 .values(autoModel.getBrand(), autoModel.getModel())
                 .returning(auto.ID)
                 .fetchOne();
-       return authorRecord.getValue(auto.ID);
+        return authorRecord.getValue(auto.ID);
     }
 
-    public boolean update(AutoModel autoModel) {
-        return dsl.update(auto)
-                .set(auto.BRAND, autoModel.getBrand())
+    public AutoModel create(AutoModel autoModel){
+        return selectById(insert(autoModel));
+    }
+
+    public void update(AutoModel autoModel) {
+         dsl.update(auto)
+                 .set(auto.BRAND, autoModel.getBrand())
                 .set(auto.MODEL, autoModel.getModel())
-                .where(auto.ID.eq(autoModel.getId()))
-                .execute() == 1;
+                .where(auto.ID.eq(autoModel.getId()));
     }
 
-    public boolean delete(long id) {
-        return dsl.deleteFrom(auto)
-                .where(auto.ID.eq(id))
-                .execute() == 1;
+    public void delete(long id) {
+         dsl.deleteFrom(auto)
+                .where(auto.ID.eq(id));
     }
 
     public AutoModel selectById(long id) {

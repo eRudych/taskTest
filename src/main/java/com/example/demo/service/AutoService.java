@@ -10,7 +10,7 @@ public interface AutoService {
 
     AutoDTO update(AutoModel auto);
 
-    boolean remove(long id);
+    void remove(long id);
 
     AutoModel select(long id);
 

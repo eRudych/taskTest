@@ -32,8 +32,8 @@ public class AutoController {
     }
 
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable ("id") long id) {
-        return autoService.remove(id);
+    public void remove(@PathVariable ("id") long id) {
+        autoService.remove(id);
     }
 
     @GetMapping
