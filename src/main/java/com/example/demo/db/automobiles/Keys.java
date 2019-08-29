@@ -5,13 +5,10 @@ package com.example.demo.db.automobiles;
 
 
 import com.example.demo.db.automobiles.tables.Auto;
-import com.example.demo.db.automobiles.tables.Databasechangeloglock;
 import com.example.demo.db.automobiles.tables.records.AutoRecord;
-import com.example.demo.db.automobiles.tables.records.DatabasechangeloglockRecord;
 
 import javax.annotation.Generated;
 
-import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
 
@@ -34,7 +31,6 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
-    public static final Identity<AutoRecord, Integer> IDENTITY_AUTO = Identities0.IDENTITY_AUTO;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -43,7 +39,6 @@ public class Keys {
     public static final UniqueKey<AutoRecord> KEY_AUTO_PRIMARY = UniqueKeys0.KEY_AUTO_PRIMARY;
     public static final UniqueKey<AutoRecord> KEY_AUTO_ID = UniqueKeys0.KEY_AUTO_ID;
     public static final UniqueKey<AutoRecord> KEY_AUTO_MODEL = UniqueKeys0.KEY_AUTO_MODEL;
-    public static final UniqueKey<DatabasechangeloglockRecord> KEY_DATABASECHANGELOGLOCK_PRIMARY = UniqueKeys0.KEY_DATABASECHANGELOGLOCK_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -54,14 +49,9 @@ public class Keys {
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
-    private static class Identities0 {
-        public static Identity<AutoRecord, Integer> IDENTITY_AUTO = Internal.createIdentity(Auto.AUTO, Auto.AUTO.ID);
-    }
-
     private static class UniqueKeys0 {
         public static final UniqueKey<AutoRecord> KEY_AUTO_PRIMARY = Internal.createUniqueKey(Auto.AUTO, "KEY_auto_PRIMARY", Auto.AUTO.ID);
         public static final UniqueKey<AutoRecord> KEY_AUTO_ID = Internal.createUniqueKey(Auto.AUTO, "KEY_auto_id", Auto.AUTO.ID);
         public static final UniqueKey<AutoRecord> KEY_AUTO_MODEL = Internal.createUniqueKey(Auto.AUTO, "KEY_auto_model", Auto.AUTO.MODEL);
-        public static final UniqueKey<DatabasechangeloglockRecord> KEY_DATABASECHANGELOGLOCK_PRIMARY = Internal.createUniqueKey(Databasechangeloglock.DATABASECHANGELOGLOCK, "KEY_databasechangeloglock_PRIMARY", Databasechangeloglock.DATABASECHANGELOGLOCK.ID);
     }
 }

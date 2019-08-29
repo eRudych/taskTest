@@ -6,7 +6,7 @@ import com.example.demo.service.AutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/automobiles")
@@ -18,26 +18,26 @@ public class AutoController {
 
     @PostMapping
     public AutoDTO create(AutoDTO autoDTO) {
-        return autoService.create(autoDTO);
+        return autoService.create(autoDTO.createAutoModel());
     }
 
     @GetMapping("/{id}")
-    public AutoModel select(@PathVariable("id") int id) {
+    public AutoModel select(@PathVariable("id") long id) {
         return autoService.select(id);
     }
 
     @PutMapping
     public AutoDTO update(AutoDTO autoDTO) {
-        return autoService.update(autoDTO);
+        return autoService.update(autoDTO.createAutoModel());
     }
 
     @DeleteMapping("/{id}")
-    public boolean remove(@PathVariable ("id") int id) {
-        return autoService.remove(id);
+    public void remove(@PathVariable ("id") long id) {
+        autoService.remove(id);
     }
 
     @GetMapping
-    public Set list() {
+    public List list() {
         return autoService.list();
     }
 }

@@ -5,7 +5,6 @@ package com.example.demo.db.automobiles;
 
 
 import com.example.demo.db.automobiles.tables.Auto;
-import com.example.demo.db.automobiles.tables.Databasechangeloglock;
 
 import javax.annotation.Generated;
 
@@ -34,7 +33,6 @@ public class Indexes {
     public static final Index AUTO_ID = Indexes0.AUTO_ID;
     public static final Index AUTO_MODEL = Indexes0.AUTO_MODEL;
     public static final Index AUTO_PRIMARY = Indexes0.AUTO_PRIMARY;
-    public static final Index DATABASECHANGELOGLOCK_PRIMARY = Indexes0.DATABASECHANGELOGLOCK_PRIMARY;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -44,6 +42,5 @@ public class Indexes {
         public static Index AUTO_ID = Internal.createIndex("id", Auto.AUTO, new OrderField[] { Auto.AUTO.ID }, true);
         public static Index AUTO_MODEL = Internal.createIndex("model", Auto.AUTO, new OrderField[] { Auto.AUTO.MODEL }, true);
         public static Index AUTO_PRIMARY = Internal.createIndex("PRIMARY", Auto.AUTO, new OrderField[] { Auto.AUTO.ID }, true);
-        public static Index DATABASECHANGELOGLOCK_PRIMARY = Internal.createIndex("PRIMARY", Databasechangeloglock.DATABASECHANGELOGLOCK, new OrderField[] { Databasechangeloglock.DATABASECHANGELOGLOCK.ID }, true);
     }
 }

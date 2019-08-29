@@ -3,16 +3,16 @@ package com.example.demo.service;
 import com.example.demo.dto.AutoDTO;
 import com.example.demo.entity.AutoModel;
 
-import java.util.Set;
+import java.util.List;
 
 public interface AutoService {
-    AutoDTO create(AutoDTO autoDTO);
+    AutoDTO create(AutoModel auto);
 
-    AutoDTO update(AutoDTO autoDTO);
+    AutoDTO update(AutoModel auto);
 
-    boolean remove(int id);
+    void remove(long id);
 
-    AutoModel select(int id);
+    AutoModel select(long id);
 
-    Set list();
+    List list();
 }

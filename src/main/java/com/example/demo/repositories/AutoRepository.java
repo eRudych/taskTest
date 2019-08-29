@@ -7,56 +7,49 @@ import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
 public class AutoRepository {
-    private Auto auto = Auto.AUTO;
+
+    private final Auto auto = Auto.AUTO;
 
     @Autowired
     private DSLContext dsl;
 
-    @Transactional
-    public int insert(AutoModel autoModel){
+    private Long insert(AutoModel autoModel) {
         AutoRecord authorRecord = dsl.insertInto(auto, auto.BRAND, auto.MODEL)
                 .values(autoModel.getBrand(), autoModel.getModel())
                 .returning(auto.ID)
                 .fetchOne();
         return authorRecord.getValue(auto.ID);
-        //id can be null
     }
 
-    @Transactional
-    public boolean update(AutoModel autoModel)
-    {
-        return dsl.update(auto)
-                .set(auto.BRAND, autoModel.getBrand())
+    public AutoModel create(AutoModel autoModel){
+        return selectById(insert(autoModel));
+    }
+
+    public void update(AutoModel autoModel) {
+         dsl.update(auto)
+                 .set(auto.BRAND, autoModel.getBrand())
                 .set(auto.MODEL, autoModel.getModel())
-                .where(auto.ID.eq(autoModel.getId()))
-                .execute() == 1;
+                .where(auto.ID.eq(autoModel.getId()));
     }
 
-    @Transactional
-    public boolean delete(int id)
-    {
-        return dsl.deleteFrom(auto)
-                .where(auto.ID.eq(id))
-                .execute() == 1;
+    public void delete(long id) {
+         dsl.deleteFrom(auto)
+                .where(auto.ID.eq(id));
     }
 
-    @Transactional
-    public com.example.demo.db.automobiles.tables.pojos.Auto selectById(int id){
+    public AutoModel selectById(long id) {
         return dsl.selectFrom(auto)
                 .where(auto.ID.eq(id))
-                .fetchOneInto(com.example.demo.db.automobiles.tables.pojos.Auto.class);
+                .fetchOneInto(AutoModel.class);
     }
 
-    @Transactional
-    public List<com.example.demo.db.automobiles.tables.pojos.Auto> selectAll()
-    {
+    public List<AutoModel> selectAll() {
         return dsl.selectFrom(auto)
-                .fetchInto(com.example.demo.db.automobiles.tables.pojos.Auto.class);
+                .fetchInto(AutoModel.class);
     }
 
 }

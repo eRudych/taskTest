@@ -5,8 +5,6 @@ package com.example.demo.db.automobiles;
 
 
 import com.example.demo.db.automobiles.tables.Auto;
-import com.example.demo.db.automobiles.tables.Databasechangelog;
-import com.example.demo.db.automobiles.tables.Databasechangeloglock;
 
 import javax.annotation.Generated;
 
@@ -28,14 +26,4 @@ public class Tables {
      * The table <code>automobiles.auto</code>.
      */
     public static final Auto AUTO = com.example.demo.db.automobiles.tables.Auto.AUTO;
-
-    /**
-     * The table <code>automobiles.databasechangelog</code>.
-     */
-    public static final Databasechangelog DATABASECHANGELOG = com.example.demo.db.automobiles.tables.Databasechangelog.DATABASECHANGELOG;
-
-    /**
-     * The table <code>automobiles.databasechangeloglock</code>.
-     */
-    public static final Databasechangeloglock DATABASECHANGELOGLOCK = com.example.demo.db.automobiles.tables.Databasechangeloglock.DATABASECHANGELOGLOCK;
 }
