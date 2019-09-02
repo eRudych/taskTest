@@ -3,18 +3,22 @@ package com.example.demo.controller;
 import com.example.demo.dto.AutoDTO;
 import com.example.demo.entity.AutoModel;
 import com.example.demo.service.AutoService;
+import com.example.demo.service.ServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/automobiles")
+@RequestMapping(value = {"/automobiles/{service}" ,"/automobiles"})
 public class AutoController {
 
+    private AutoService autoService;
 
     @Autowired
-    private AutoService autoService;
+    public void setService(@PathVariable("service") String service) {
+        this.autoService = ServiceFactory.getService(service);
+    }
 
     @PostMapping
     public AutoDTO create(AutoDTO autoDTO) {

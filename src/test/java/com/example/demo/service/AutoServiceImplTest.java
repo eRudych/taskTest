@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.AutoDTO;
-import com.example.demo.entity.Auto;
+import com.example.demo.entity.AutoModel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,13 +27,13 @@ public class AutoServiceImplTest {
     private MockMvc mockMvc;
 
     private AutoDTO autoDTO;
-    private Auto auto;
-    private int autoId;
+    private AutoModel auto;
+    private Long autoId;
 
     @Before
     public void initial() {
         autoDTO = new AutoDTO(1, "Brand", "Model");
-        auto = Auto.builder()
+        auto = AutoModel.builder()
                 .id(autoDTO.getId())
                 .brand(autoDTO.getBrand())
                 .model(autoDTO.getModel())
@@ -51,21 +51,20 @@ public class AutoServiceImplTest {
     public void testCreate() throws Exception {
         mockMvc.perform(post("/"))
                 .andExpect(status().isOk());
-        assertThat(autoDTO, is(autoService.create(autoDTO)));
+        assertThat(autoDTO, is(autoService.create(auto)));
     }
 
     @Test
     public void testUpdate() throws Exception {
         mockMvc.perform(put("/"))
                 .andExpect(status().isOk());
-        assertThat(autoDTO, is(autoService.update(autoDTO)));
+        assertThat(autoDTO, is(autoService.update(auto)));
     }
 
     @Test
     public void testRemove() throws Exception {
         mockMvc.perform(delete("/{AUTO_ID}"))
                 .andExpect(status().isOk());
-        assertThat(true,is(autoService.remove(autoId)));
     }
 
     @Test

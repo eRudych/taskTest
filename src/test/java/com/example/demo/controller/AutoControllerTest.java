@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.AutoDTO;
-import com.example.demo.entity.Auto;
+import com.example.demo.entity.AutoModel;
 import com.example.demo.service.AutoService;
 import org.junit.After;
 import org.junit.Before;
@@ -34,13 +34,13 @@ public class AutoControllerTest {
     private MockMvc mockMvc;
 
     private AutoDTO autoDTO;
-    private Auto auto;
-    private int autoId;
+    private AutoModel auto;
+    private Long autoId;
 
     @Before
     public void initial() {
         autoDTO = new AutoDTO(1, "Brand", "Model");
-        auto = Auto.builder()
+        auto = AutoModel.builder()
                 .id(autoDTO.getId())
                 .brand(autoDTO.getBrand())
                 .model(autoDTO.getModel())
@@ -63,7 +63,6 @@ public class AutoControllerTest {
 
     @Test
     public void testRemove() throws Exception {
-        when(autoService.remove(autoId)).thenReturn(true);
         mockMvc.perform(delete("/{AUTO_ID}"))
                 .andExpect(status().isOk());
         verify(autoController).remove(autoId);
@@ -71,7 +70,7 @@ public class AutoControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        when(autoService.create(autoDTO)).thenReturn(autoDTO);
+        when(autoService.create(auto)).thenReturn(autoDTO);
         mockMvc.perform(post("/"))
                 .andExpect(status().isOk());
         verify(autoController).create(autoDTO);
@@ -87,7 +86,7 @@ public class AutoControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        when(autoService.update(autoDTO)).thenReturn(autoDTO);
+        when(autoService.update(auto)).thenReturn(autoDTO);
         mockMvc.perform(put("/"))
                 .andExpect(status().isOk());
         verify(autoController).update(autoDTO);
