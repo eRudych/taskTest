@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.AutoDTO;
-import com.example.demo.entity.AutoModel;
 import com.example.demo.service.AutoService;
 import com.example.demo.service.ServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = {"/automobiles/{service}" ,"/automobiles"})
+@RequestMapping(value = {"/automobiles/{service}"})
 public class AutoController {
 
-    private AutoService autoService;
+    private final AutoService autoService;
 
     @Autowired
-    public void setService(@PathVariable("service") String service) {
-        this.autoService = ServiceFactory.getService(service);
+    public AutoController(AutoService autoService, @PathVariable("service") String service) {
+        ServiceFactory factory= new ServiceFactory();
+        this.autoService = factory.getService(service) ;
     }
 
     @PostMapping
@@ -26,8 +26,8 @@ public class AutoController {
     }
 
     @GetMapping("/{id}")
-    public AutoModel select(@PathVariable("id") long id) {
-        return autoService.select(id);
+    public AutoDTO select(@PathVariable("id") long id) {
+        return autoService.get(id);
     }
 
     @PutMapping

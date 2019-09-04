@@ -4,6 +4,7 @@ import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.sql.Connection;
@@ -11,6 +12,7 @@ import java.sql.DriverManager;
 
 @SpringBootApplication
 @EnableTransactionManagement
+@EnableJpaRepositories("com.example.demo.repositories")
 public class TaskTestApplication {
 
 	public static void main(String[] args) {

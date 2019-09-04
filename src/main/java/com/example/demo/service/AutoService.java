@@ -6,13 +6,16 @@ import com.example.demo.entity.AutoModel;
 import java.util.List;
 
 public interface AutoService {
+
+    ServiceFactory.ServiceType getType();
+
     AutoDTO create(AutoModel auto);
 
     AutoDTO update(AutoModel auto);
 
     void remove(long id);
 
-    AutoModel select(long id);
+    AutoDTO get(long id);
 
     List list();
 }

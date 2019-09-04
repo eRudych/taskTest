@@ -71,7 +71,7 @@ public class AutoServiceImplTest {
     public void testSelect() throws Exception {
         mockMvc.perform(get("/{autoDTO.getId()}"))
                 .andExpect(status().isOk());
-        assertThat(autoDTO, is(autoService.select(autoId)));
+        assertThat(autoDTO, is(autoService.get(autoId)));
     }
 
     @Test

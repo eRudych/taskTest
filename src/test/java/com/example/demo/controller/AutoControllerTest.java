@@ -78,7 +78,7 @@ public class AutoControllerTest {
 
     @Test
     public void testSelect() throws Exception {
-        when(autoService.select(autoDTO.getId())).thenReturn(auto);
+        when(autoService.get(autoDTO.getId())).thenReturn(autoDTO);
         mockMvc.perform(get("/{autoDTO.getId()}"))
                 .andExpect(status().isOk());
         verify(autoController).select(autoId);

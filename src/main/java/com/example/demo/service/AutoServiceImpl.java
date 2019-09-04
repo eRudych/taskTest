@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.AutoDTO;
 import com.example.demo.entity.AutoModel;
 import com.example.demo.repositories.AutoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,10 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AutoServiceImpl implements AutoService {
 
-    @Autowired
-    private AutoRepository autoRepository;
+    private final AutoRepository autoRepository;
+
+    @Override
+    public ServiceFactory.ServiceType getType() {
+        return ServiceFactory.ServiceType.STANDARD;
+    }
 
     @Override
     @Transactional
@@ -26,7 +32,7 @@ public class AutoServiceImpl implements AutoService {
     @Transactional
     public AutoDTO update(AutoModel auto) {
         autoRepository.update(auto);
-        return AutoDTO.createAutoDTO(select(auto.getId()));
+        return get(auto.getId());
     }
 
     @Override
@@ -36,8 +42,8 @@ public class AutoServiceImpl implements AutoService {
     }
 
     @Override
-    public AutoModel select(long id) {
-        return autoRepository.selectById(id);
+    public AutoDTO get(long id) {
+        return AutoDTO.createAutoDTO(autoRepository.selectById(id));
     }
 
     @Override

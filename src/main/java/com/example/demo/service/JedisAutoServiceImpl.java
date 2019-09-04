@@ -3,21 +3,28 @@ package com.example.demo.service;
 import com.example.demo.dto.AutoDTO;
 import com.example.demo.entity.AutoModel;
 import com.example.demo.repositories.JedisAutoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
+@Service
+@RequiredArgsConstructor
 public class JedisAutoServiceImpl implements AutoService {
 
-    @Autowired
-    private JedisAutoRepository repository;
+    private final JedisAutoRepository repository;
+
+    @Override
+    public ServiceFactory.ServiceType getType() {
+        return ServiceFactory.ServiceType.JERIS;
+    }
 
     @Override
     public AutoDTO create(AutoModel auto) {
-        repository.save(auto);
-        return AutoDTO.createAutoDTO(select(auto.getId()));
+        long autoId = repository.save(auto).getId();
+        return get(autoId);
     }
 
     @Override
@@ -31,14 +38,14 @@ public class JedisAutoServiceImpl implements AutoService {
     }
 
     @Override
-    public AutoModel select(long id) {
-        return repository.findById(Long.toString(id)).orElse(null);
+    public AutoDTO get(long id) {
+        return AutoDTO.createAutoDTO(Objects.requireNonNull(repository.findById(Long.toString(id)).orElse(null)));
     }
 
     @Override
     public List list() {
-        List list=new LinkedList<AutoModel>();
-         repository.findAll().forEach(list::add);
-         return list;
+        List list = new LinkedList<AutoModel>();
+        for (AutoModel autoModel : repository.findAll()) list.add(autoModel);
+        return list;
     }
 }
