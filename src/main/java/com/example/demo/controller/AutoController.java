@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.dto.AutoDTO;
 import com.example.demo.service.AutoService;
 import com.example.demo.service.ServiceFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +13,9 @@ public class AutoController {
 
     private final AutoService autoService;
 
-    @Autowired
-    public AutoController(AutoService autoService, @PathVariable("service") String service) {
-        ServiceFactory factory= new ServiceFactory();
-        this.autoService = factory.getService(service) ;
+    public AutoController(@PathVariable("service") ServiceFactory.ServiceType service) {
+        ServiceFactory factory = new ServiceFactory();
+        this.autoService = factory.getService(service);
     }
 
     @PostMapping
