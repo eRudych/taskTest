@@ -4,7 +4,6 @@ import com.example.demo.db.automobiles.tables.Auto;
 import com.example.demo.db.automobiles.tables.records.AutoRecord;
 import com.example.demo.entity.AutoModel;
 import org.jooq.DSLContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,9 +12,11 @@ import java.util.List;
 public class AutoRepository {
 
     private final Auto auto = Auto.AUTO;
-
-    @Autowired
     private DSLContext dsl;
+
+    public AutoRepository(DSLContext dsl) {
+        this.dsl = dsl;
+    }
 
     private Long insert(AutoModel autoModel) {
         AutoRecord authorRecord = dsl.insertInto(auto, auto.BRAND, auto.MODEL)

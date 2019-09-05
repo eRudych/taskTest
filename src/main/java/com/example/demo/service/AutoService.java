@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AutoService {
 
-    ServiceFactory.ServiceType getType();
+    ServiceType getType();
 
     AutoDTO create(AutoModel auto);
 

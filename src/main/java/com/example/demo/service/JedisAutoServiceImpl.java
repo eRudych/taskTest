@@ -4,6 +4,7 @@ import com.example.demo.dto.AutoDTO;
 import com.example.demo.entity.AutoModel;
 import com.example.demo.repositories.JedisAutoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -17,8 +18,8 @@ public class JedisAutoServiceImpl implements AutoService {
     private final JedisAutoRepository repository;
 
     @Override
-    public ServiceFactory.ServiceType getType() {
-        return ServiceFactory.ServiceType.JERIS;
+    public ServiceType getType() {
+        return ServiceType.JEDIS;
     }
 
     @Override

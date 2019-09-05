@@ -17,8 +17,8 @@ public class AutoServiceImpl implements AutoService {
     private final AutoRepository autoRepository;
 
     @Override
-    public ServiceFactory.ServiceType getType() {
-        return ServiceFactory.ServiceType.STANDARD;
+    public ServiceType getType() {
+        return ServiceType.STANDARD;
     }
 
     @Override

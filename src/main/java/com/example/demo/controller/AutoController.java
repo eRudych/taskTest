@@ -3,20 +3,37 @@ package com.example.demo.controller;
 import com.example.demo.dto.AutoDTO;
 import com.example.demo.service.AutoService;
 import com.example.demo.service.ServiceFactory;
+import com.example.demo.service.ServiceType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = {"/automobiles/{service}"})
+@EnableAutoConfiguration
+@RequestMapping(value = "/automobiles/{service}")
 public class AutoController {
 
     private final AutoService autoService;
 
-    public AutoController(@PathVariable("service") ServiceFactory.ServiceType service) {
-        ServiceFactory factory = new ServiceFactory();
-        this.autoService = factory.getService(service);
+    @Autowired(required=false)
+    private ServiceType serviceType;
+
+    @Autowired
+    public AutoController(ServiceFactory serviceFactory) {
+        this.autoService = serviceFactory.getService(ServiceType.STANDARD);
     }
+//
+//    @GetMapping
+//    void setServiceType(@RequestParam("service") ServiceType service){
+//        this.serviceType = service;
+//    }
+//
+//    private ServiceType getServiceType(){
+//        return this.serviceType;
+//    }
+
 
     @PostMapping
     public AutoDTO create(AutoDTO autoDTO) {
@@ -34,7 +51,7 @@ public class AutoController {
     }
 
     @DeleteMapping("/{id}")
-    public void remove(@PathVariable ("id") long id) {
+    public void remove(@PathVariable("id") long id) {
         autoService.remove(id);
     }
 
