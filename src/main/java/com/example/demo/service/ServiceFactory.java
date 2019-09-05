@@ -18,4 +18,3 @@ public class ServiceFactory {
                 .orElseThrow(IllegalArgumentException::new);
     }
 }
-
