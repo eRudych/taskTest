@@ -2,51 +2,62 @@ package com.example.demo.service;
 
 import com.example.demo.dto.AutoDTO;
 import com.example.demo.entity.AutoModel;
-import com.example.demo.repositories.AutoRepository;
-import lombok.RequiredArgsConstructor;
+import com.example.demo.factory.AutoServiceType;
+import com.example.demo.mapper.AutoMapper;
+import com.example.demo.repository.AutoRepositoryImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class AutoServiceImpl implements AutoService {
 
-    private final AutoRepository autoRepository;
+    private final AutoRepositoryImpl repository;
+    private final AutoMapper mapper;
+
+    @Autowired
+    public AutoServiceImpl(AutoRepositoryImpl repository, AutoMapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
+    }
 
     @Override
-    public ServiceType getType() {
-        return ServiceType.STANDARD;
+    public AutoServiceType getType() {
+        return AutoServiceType.STANDARD;
     }
 
     @Override
     @Transactional
     public AutoDTO create(AutoModel auto) {
-        return AutoDTO.createAutoDTO(autoRepository.create(auto));
+        return mapper.toDto(repository.create(auto));
     }
 
     @Override
     @Transactional
     public AutoDTO update(AutoModel auto) {
-        autoRepository.update(auto);
+        repository.update(auto);
         return get(auto.getId());
     }
 
     @Override
     @Transactional
     public void remove(long id) {
-        autoRepository.delete(id);
+        repository.delete(id);
     }
 
     @Override
     public AutoDTO get(long id) {
-        return AutoDTO.createAutoDTO(autoRepository.selectById(id));
+        return mapper.toDto(repository.selectById(id));
     }
 
     @Override
-    public List<AutoModel> list() {
-        return autoRepository.selectAll();
+    public List<AutoDTO> getAll() {
+        List<AutoDTO> autoDTOS = new LinkedList<>();
+        for (AutoModel autoModel : repository.selectAll()) autoDTOS.add(mapper.toDto(autoModel));
+        return autoDTOS;
     }
 }
