@@ -14,7 +14,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class AutoServiceImpl implements AutoService {
+public class
+AutoServiceImpl implements AutoService {
 
     private final AutoRepositoryImpl repository;
     private final AutoMapper mapper;

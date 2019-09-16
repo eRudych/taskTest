@@ -7,7 +7,6 @@ import com.example.demo.factory.AutoServiceType;
 import com.example.demo.mapper.AutoMapper;
 import com.example.demo.repository.JedisAutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -15,7 +14,6 @@ import java.util.List;
 
 
 @Service
-@EnableAutoConfiguration
 public class JedisAutoServiceImpl implements AutoService {
 
     private final JedisAutoRepository repository;
