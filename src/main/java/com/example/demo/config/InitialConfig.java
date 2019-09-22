@@ -1,6 +1,6 @@
 package com.example.demo.config;
 
-import com.example.demo.entity.BaseEntity;
+import com.example.demo.entity.AutoModel;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,10 +10,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericToStringSerializer;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.embedded.RedisServer;
 
 
@@ -46,23 +44,29 @@ public class InitialConfig {
         return RedisServer.builder().port(redisPort).setting("maxmemory 128M").build();
     }
 
-
     @Bean
-    protected JedisConnectionFactory jedisConnectionFactory() {
+    public RedisStandaloneConfiguration redisStandaloneConfiguration() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(redisHost, redisPort);
         redisStandaloneConfiguration.setPassword("");
-        JedisClientConfiguration clientConfig = JedisClientConfiguration
-                .builder().build();
-        return new JedisConnectionFactory(redisStandaloneConfiguration, clientConfig);
+        return redisStandaloneConfiguration;
     }
 
     @Bean
-    public RedisTemplate<String, BaseEntity> redisTemplate(RedisConnectionFactory jedisConnectionFactory) {
-        final RedisTemplate<String, BaseEntity> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashKeySerializer(new GenericToStringSerializer<>(BaseEntity.class));
-        redisTemplate.setHashValueSerializer(new JdkSerializationRedisSerializer());
-        redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
+    public LettuceConnectionFactory redisConnectionFactory() {
+        return new LettuceConnectionFactory(redisStandaloneConfiguration());
+    }
+
+
+    @Bean
+    public JedisConnectionFactory jedisConnectionFactory() {
+        JedisClientConfiguration clientConfig = JedisClientConfiguration
+                .builder().build();
+        return new JedisConnectionFactory(redisStandaloneConfiguration(), clientConfig);
+    }
+
+    @Bean
+    public RedisTemplate<String, AutoModel> redisTemplate(RedisConnectionFactory jedisConnectionFactory) {
+        final RedisTemplate<String, AutoModel> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(jedisConnectionFactory);
         return redisTemplate;
     }

@@ -20,6 +20,14 @@ public class AutoServiceFactory {
     }
 
     public AutoService getService(AutoServiceType type) {
-        return mapping.computeIfAbsent(type, this::getService);
+        return mapping.computeIfAbsent(type,
+                k -> {
+                    try {
+                        throw new Exception();
+                    } catch (Exception e) {
+                        return null;
+                    }
+                });
+
     }
 }

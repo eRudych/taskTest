@@ -10,13 +10,13 @@ public interface AutoService {
 
     AutoServiceType getType();
 
-    AutoDTO create(AutoModel auto) throws Exception;
+    AutoDTO create(AutoModel auto);
 
-    AutoDTO update(AutoModel auto) throws Exception;
+    AutoDTO update(AutoModel auto);
 
     void remove(long id);
 
-    AutoDTO get(long id) throws Exception;
+    AutoDTO get(long id);
 
     List<AutoDTO> getAll();
 }

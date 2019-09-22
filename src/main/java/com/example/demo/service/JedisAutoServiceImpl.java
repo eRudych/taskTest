@@ -2,12 +2,12 @@ package com.example.demo.service;
 
 import com.example.demo.dto.AutoDTO;
 import com.example.demo.entity.AutoModel;
-import com.example.demo.exception.ValueNotFoundException;
 import com.example.demo.factory.AutoServiceType;
 import com.example.demo.mapper.AutoMapper;
-import com.example.demo.repository.JedisAutoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.repository.AutoRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,11 +16,10 @@ import java.util.List;
 @Service
 public class JedisAutoServiceImpl implements AutoService {
 
-    private final JedisAutoRepository repository;
+    private final AutoRepository repository;
     private final AutoMapper mapper;
 
-    @Autowired
-    public JedisAutoServiceImpl(JedisAutoRepository repository, AutoMapper mapper) {
+    public JedisAutoServiceImpl(@Qualifier("jedisAutoRepositoryImpl") AutoRepository repository, AutoMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
@@ -31,37 +30,33 @@ public class JedisAutoServiceImpl implements AutoService {
     }
 
     @Override
+    @Transactional
     public AutoDTO create(AutoModel auto) {
-        long autoId = repository.save(auto).getId();
-        return get(autoId);
+        return mapper.toDto(repository.create(auto));
     }
 
     @Override
+    @Transactional
     public AutoDTO update(AutoModel auto) {
-        return create(auto);
+        repository.update(auto);
+        return get(auto.getId());
     }
 
     @Override
+    @Transactional
     public void remove(long id) {
-        repository.deleteById(Long.toString(id));
+        repository.delete(id);
     }
-
 
     @Override
     public AutoDTO get(long id) {
-        AutoDTO autoDTO = null;
-        try {
-            autoDTO = mapper.toDto(repository.findById(Long.toString(id)).orElseThrow(new ValueNotFoundException()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return autoDTO;
+        return mapper.toDto(repository.selectById(id));
     }
 
     @Override
     public List<AutoDTO> getAll() {
         LinkedList<AutoDTO> autoDTOS = new LinkedList<>();
-        for (AutoModel autoModel : repository.findAll()) autoDTOS.add(mapper.toDto(autoModel));
+        for (AutoModel autoModel : repository.selectAll()) autoDTOS.add(mapper.toDto(autoModel));
         return autoDTOS;
     }
 }

@@ -2,28 +2,36 @@ package com.example.demo.log;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.stereotype.Component;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Aspect
 @Component
 public class LoggerAspect {
 
-    private Logger logger = Logger.getLogger(LoggerAspect.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
 
-    @Pointcut("within(com.example.demo.service.*)")
-    public void pointcutForServices() {
+
+    @Pointcut("within(com.example.demo.*.*)")
+    public void pointcutForDemo() {
     }
 
-    @After("pointcutForServices()")
-    public void logMethodCall(JoinPoint jp) {
-        String methodName = jp.getSignature()
-                .getName();
-        logger.log(Level.INFO, "Service method: " + methodName);
+    @After("pointcutForDemo()")
+    public void logMethodCallForController(JoinPoint jp) {
+        String className = jp.getTarget().getClass().toString();
+        String methodName = jp.getSignature().getName();
+        logger.info("LogInfo: " + className + " method - " + methodName);
     }
 
+    @AfterThrowing(pointcut = "pointcutForDemo()", throwing = "ex")
+    public void logError(JoinPoint jp, Exception ex) {
+        String className = jp.getTarget().getClass().toString();
+        String methodName = jp.getSignature().getName();
+        logger.error("LogError: " + className + " method - " + methodName + " exception - " + ex);
     }
+}

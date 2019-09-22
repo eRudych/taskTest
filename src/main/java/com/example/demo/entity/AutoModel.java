@@ -1,14 +1,20 @@
 package com.example.demo.entity;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @RedisHash("AutoModel")
 public class AutoModel implements Serializable, BaseEntity {
-    private final long id;
-    private final String brand;
-    private final String model;
+    @Id
+    private  long id;
+    private  String brand;
+    private  String model;
 }

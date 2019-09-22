@@ -7,4 +7,7 @@
              relativeToChangelogFile="true" />
     <include file="changelog/03-modify-type-id.xml"
              relativeToChangelogFile="true" />
+    <include file="changelog/04-auto-increment.xml"
+             relativeToChangelogFile="true" />
+
 </databaseChangeLog>

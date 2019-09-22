@@ -10,7 +10,7 @@ import java.util.List;
 
 import static com.example.demo.db.automobiles.tables.Auto.AUTO;
 
-@Repository
+@Repository(value = "autoRepositoryImpl")
 @RequiredArgsConstructor
 public class AutoRepositoryImpl implements AutoRepository {
 
@@ -34,13 +34,13 @@ public class AutoRepositoryImpl implements AutoRepository {
         dsl.update(AUTO)
                 .set(AUTO.BRAND, autoModel.getBrand())
                 .set(AUTO.MODEL, autoModel.getModel())
-                .where(AUTO.ID.eq(autoModel.getId()));
+                .where(AUTO.ID.eq(autoModel.getId())).execute();
     }
 
     @Override
     public void delete(long id) {
         dsl.deleteFrom(AUTO)
-                .where(AUTO.ID.eq(id));
+                .where(AUTO.ID.eq(id)).execute();
     }
 
     @Override

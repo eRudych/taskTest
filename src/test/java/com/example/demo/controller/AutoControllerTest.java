@@ -8,15 +8,21 @@ import com.example.demo.mapper.AutoMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -25,36 +31,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class AutoControllerTest {
 
-    @Mock
-    private AutoServiceFactory factory;
+    private final AutoServiceFactory factory=mock(AutoServiceFactory.class);
 
-    @Mock
-    private AutoController autoController;
+    private final AutoMapper mapper=new AutoMapper(new ModelMapper());
 
-    @Mock
-    private AutoMapper mapper;
+    @Autowired
+    private final AutoController autoController=new AutoController(factory,mapper);
 
-
-    private AutoDTO autoDTO;
     private AutoModel auto;
+    private AutoDTO autoDTO;
     private long autoId;
+
 
     @Autowired
     private MockMvc mockMvc;
 
     @Before
     public void initial() {
-        auto = new AutoModel(3, "audi", "a4");
-        autoDTO = mapper.toDto(auto);
-        autoId = auto.getId();
+        auto = new AutoModel(7, "audi", "a10");
+        autoDTO =new AutoDTO(7, "audi", "a10");
+        autoId = autoDTO.getId();
     }
 
     @Test
     public void testGetAll() throws Exception {
+        String actualBody= "[{\"id\":4,\"brand\":\"audi\",\"model\":\"a6\"}]";
         for (AutoServiceType type : AutoServiceType.values()) {
-            mockMvc.perform(get("/automobiles/" + type + "/"))
-                    .andExpect(status().isOk());
-            verify(autoController).getAll(type);
+          MvcResult result= mockMvc.perform(get("/automobiles/" + type + "/"))
+                    .andExpect(status().isOk()).andReturn();
+            String content = result.getResponse().getContentAsString();
+            assertEquals(content,actualBody);
         }
     }
 
@@ -63,7 +69,6 @@ public class AutoControllerTest {
         for (AutoServiceType type : AutoServiceType.values()) {
             mockMvc.perform(delete("/automobiles/" + type + "/" + autoId + "/"))
                     .andExpect(status().isOk());
-            verify(autoController).remove(autoId, type);
         }
 
     }
@@ -71,29 +76,33 @@ public class AutoControllerTest {
     @Test
     public void testCreate() throws Exception {
         for (AutoServiceType type : AutoServiceType.values()) {
-            when(factory.getService(type).create(auto)).thenReturn(autoDTO);
-            mockMvc.perform(post("/automobiles/" + type + "/")).andExpect(status().isOk());
-            verify(autoController).create(autoDTO,type);
+            mockMvc.perform(post("/automobiles/" + type + "/")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content("{\"brand\": \"audi\", \"model\": \"a10\" }")
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
+            // assertThat(autoController.create(autoDTO,type),is(autoDTO));
         }
     }
 
     @Test
     public void testGet() throws Exception {
         for (AutoServiceType type : AutoServiceType.values()) {
-            when(factory.getService(type).get(autoId)).thenReturn(autoDTO);
-            mockMvc.perform(get("/automobiles/" + type + "/" + autoId + "/"))
-                    .andExpect(status().isOk());
-            verify(autoController).get(autoId,type);
+            mockMvc.perform(get("/automobiles/" + type + "/"+autoId)
+            ) .andExpect(status().isOk());
+           assertThat(autoController.get(autoId,type),is(autoDTO));
         }
     }
 
     @Test
     public void testUpdate() throws Exception {
         for (AutoServiceType type : AutoServiceType.values()) {
-            when(factory.getService(type).update(auto)).thenReturn(autoDTO);
-            mockMvc.perform(put("/automobiles/" + type + "/"))
+            mockMvc.perform(put("/automobiles/" + type + "/")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content("{ \"id\": 4, \"brand\": \"audi\", \"model\": \"a6\" }")
+                    .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
-            verify(autoController.update(autoDTO,type));
+            assertThat(autoController.update(autoDTO,type),is(autoDTO));
         }
     }
 }

@@ -4,8 +4,9 @@ import com.example.demo.dto.AutoDTO;
 import com.example.demo.entity.AutoModel;
 import com.example.demo.factory.AutoServiceType;
 import com.example.demo.mapper.AutoMapper;
-import com.example.demo.repository.AutoRepositoryImpl;
+import com.example.demo.repository.AutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,14 +15,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class
-AutoServiceImpl implements AutoService {
+public class AutoServiceImpl implements AutoService {
 
-    private final AutoRepositoryImpl repository;
+
+    private final AutoRepository repository;
     private final AutoMapper mapper;
 
     @Autowired
-    public AutoServiceImpl(AutoRepositoryImpl repository, AutoMapper mapper) {
+    public AutoServiceImpl(@Qualifier("autoRepositoryImpl") AutoRepository repository, AutoMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

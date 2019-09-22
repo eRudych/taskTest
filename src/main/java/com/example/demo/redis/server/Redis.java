@@ -15,7 +15,8 @@ public class Redis {
 
     @PostConstruct
     public void start() {
-        if (!redisServer.isActive()) redisServer.start();
+        if (!redisServer.isActive())
+            redisServer.start();
     }
 
     @PreDestroy

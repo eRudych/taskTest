@@ -19,6 +19,7 @@ public class AutoMapper implements Mapper<AutoModel, AutoDTO> {
     }
 
     public AutoDTO toDto(AutoModel entity) {
+
         return Objects.isNull(entity) ? null : mapper.map(entity, AutoDTO.class);
     }
 }
