@@ -1,17 +1,14 @@
 package com.example.demo.config;
 
-import com.example.demo.entity.AutoModel;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
-import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 import redis.embedded.RedisServer;
 
 
@@ -25,6 +22,21 @@ public class InitialConfig {
 
     @Value("${spring.redis.port}")
     private int redisPort;
+
+    @Value("${spring.redis.timeout}")
+    private int redisTimeOut;
+
+    @Value("${spring.redis.password}")
+    private String redisPassword;
+
+    @Value("${spring.redis.jedis.pool.max-active}")
+    private int redisMaxActive;
+
+    @Value("${spring.redis.jedis.pool.max-idle}")
+    private int redisMaxIdle;
+
+    @Value("${spring.redis.jedis.pool.min-idle}")
+    private int redisMinIdle;
 
 
     @Bean
@@ -45,29 +57,16 @@ public class InitialConfig {
     }
 
     @Bean
-    public RedisStandaloneConfiguration redisStandaloneConfiguration() {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(redisHost, redisPort);
-        redisStandaloneConfiguration.setPassword("");
-        return redisStandaloneConfiguration;
+    public Jedis jedis(){
+        return new Jedis(redisHost,redisPort);
     }
-
     @Bean
-    public LettuceConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(redisStandaloneConfiguration());
+    public JedisPool getJedisPool() {
+        GenericObjectPoolConfig poolConfig = new JedisPoolConfig();
+        poolConfig.setMaxIdle(redisMaxIdle);
+        poolConfig.setMaxTotal(redisMaxActive + redisMaxIdle);
+        poolConfig.setMinIdle(redisMinIdle);
+        return new JedisPool(poolConfig, redisHost, redisPort, redisTimeOut);
     }
 
-
-    @Bean
-    public JedisConnectionFactory jedisConnectionFactory() {
-        JedisClientConfiguration clientConfig = JedisClientConfiguration
-                .builder().build();
-        return new JedisConnectionFactory(redisStandaloneConfiguration(), clientConfig);
-    }
-
-    @Bean
-    public RedisTemplate<String, AutoModel> redisTemplate(RedisConnectionFactory jedisConnectionFactory) {
-        final RedisTemplate<String, AutoModel> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(jedisConnectionFactory);
-        return redisTemplate;
-    }
 }

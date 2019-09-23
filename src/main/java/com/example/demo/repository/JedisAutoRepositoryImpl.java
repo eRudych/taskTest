@@ -1,11 +1,18 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.AutoModel;
-import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.RedisTemplate;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 @Repository(value = "jedisAutoRepositoryImpl")
@@ -13,19 +20,31 @@ public class JedisAutoRepositoryImpl implements AutoRepository {
 
     private final String KEY = "automobiles";
 
+    private final Jedis jedis;
 
-    private final RedisTemplate<String, AutoModel> redisTemplate;
+    private final Gson gson;
 
-    private final ListOperations<String, AutoModel> listOperations;
+    private Map<Long,AutoModel> autoModelMap;
 
-    public JedisAutoRepositoryImpl(RedisTemplate<String, AutoModel> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-        listOperations = redisTemplate.opsForList();
+    private final Type type = new TypeToken<Map<String, AutoModel>>() {}.getType();
+
+    @Autowired
+    public JedisAutoRepositoryImpl(JedisPool jedisPool, Gson gson) {
+        this.jedis = jedisPool.getResource();
+        this.gson = gson;
+        initialMap();
+    }
+
+    private void initialMap(){
+        autoModelMap=new HashMap<>();
+        autoModelMap.put((long) 1,new AutoModel(1,"bmw","m2"));
+        jedis.set(KEY,gson.toJson(autoModelMap));
     }
 
     @Override
     public AutoModel create(AutoModel autoModel) {
-        listOperations.rightPush(KEY, autoModel);
+        autoModelMap.put(autoModel.getId(),autoModel);
+        jedis.set(KEY,gson.toJson(autoModelMap));
         return selectById(autoModel.getId());
     }
 
@@ -36,16 +55,17 @@ public class JedisAutoRepositoryImpl implements AutoRepository {
 
     @Override
     public void delete(long id) {
-        listOperations.remove(KEY, 1, selectById(id));
-    }
+        autoModelMap.remove(id);
+        jedis.set(KEY,gson.toJson(autoModelMap)); }
 
     @Override
     public AutoModel selectById(long id) {
-        return (AutoModel) redisTemplate.opsForList().index(KEY, id);
+        autoModelMap = gson.fromJson(jedis.get(KEY),type);
+        return autoModelMap.get(id);
     }
 
     @Override
     public List<AutoModel> selectAll() {
-        return listOperations.range(KEY, 0, listOperations.size(KEY));
+        return new LinkedList<>(autoModelMap.values());
     }
 }

@@ -31,6 +31,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jooq'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.liquibase:liquibase-core'
+    implementation 'com.google.code.gson:gson:2.8.5'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
@@ -39,7 +40,7 @@ dependencies {
     compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.2'
     compile group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
     compile group: 'com.github.kstyrc', name: 'embedded-redis', version: '0.6'
-    compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
+    compile group: 'redis.clients', name: 'jedis', version: '3.1.0'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
