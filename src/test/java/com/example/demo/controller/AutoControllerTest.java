@@ -1,11 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.AutoDTO;
-import com.example.demo.entity.AutoModel;
 import com.example.demo.factory.AutoServiceFactory;
 import com.example.demo.factory.AutoServiceType;
 import com.example.demo.mapper.AutoMapper;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -18,11 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -38,20 +34,12 @@ public class AutoControllerTest {
     @Autowired
     private final AutoController autoController=new AutoController(factory,mapper);
 
-    private AutoModel auto;
-    private AutoDTO autoDTO;
-    private long autoId;
+    private AutoDTO autoDTO =new AutoDTO(7, "audi", "a10");
+    private final long autoId= autoDTO.getId();
 
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Before
-    public void initial() {
-        auto = new AutoModel(7, "audi", "a10");
-        autoDTO =new AutoDTO(7, "audi", "a10");
-        autoId = autoDTO.getId();
-    }
 
     @Test
     public void testGetAll() throws Exception {
@@ -59,8 +47,7 @@ public class AutoControllerTest {
         for (AutoServiceType type : AutoServiceType.values()) {
           MvcResult result= mockMvc.perform(get("/automobiles/" + type + "/"))
                     .andExpect(status().isOk()).andReturn();
-            String content = result.getResponse().getContentAsString();
-            assertEquals(content,actualBody);
+            assertThat(result.getResponse().getContentAsString(),is(actualBody));
         }
     }
 
@@ -81,7 +68,7 @@ public class AutoControllerTest {
                     .content("{\"brand\": \"audi\", \"model\": \"a10\" }")
                     .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
-            // assertThat(autoController.create(autoDTO,type),is(autoDTO));
+             assertThat(autoController.create(autoDTO,type),is(autoDTO));
         }
     }
 

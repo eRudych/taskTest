@@ -50,18 +50,18 @@ public class AutoServiceImplTest {
     @Test
     public void remove() {
         service.remove(autoId);
-        verify(repository).delete(autoId);
+        verify(repository).remove(autoId);
     }
 
     @Test
     public void get() {
         service.get(autoId);
-        when(repository.selectById(autoId)).thenReturn(auto);
+        when(repository.get(autoId)).thenReturn(auto);
     }
 
     @Test
     public void getAll() {
         service.getAll();
-        verify(repository).selectAll();
+        verify(repository).getAll();
     }
 }

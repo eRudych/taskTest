@@ -14,7 +14,7 @@ import java.io.Serializable;
 @RedisHash("AutoModel")
 public class AutoModel implements Serializable, BaseEntity {
     @Id
-    private  long id;
-    private  String brand;
-    private  String model;
+    private long id;
+    private String brand;
+    private String model;
 }

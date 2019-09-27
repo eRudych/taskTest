@@ -10,10 +10,10 @@ public interface AutoRepository {
 
     void update(AutoModel autoModel);
 
-    void delete(long id);
+    void remove(long id);
 
-    AutoModel selectById(long id);
+    AutoModel get(long id);
 
-    List<AutoModel> selectAll();
+    List<AutoModel> getAll();
 
 }

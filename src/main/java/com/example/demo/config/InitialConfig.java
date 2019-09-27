@@ -57,9 +57,10 @@ public class InitialConfig {
     }
 
     @Bean
-    public Jedis jedis(){
-        return new Jedis(redisHost,redisPort);
+    public Jedis jedis() {
+        return new Jedis(redisHost, redisPort);
     }
+
     @Bean
     public JedisPool getJedisPool() {
         GenericObjectPoolConfig poolConfig = new JedisPoolConfig();
