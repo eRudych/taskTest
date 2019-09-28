@@ -4,7 +4,6 @@ import com.example.demo.entity.AutoModel;
 import com.example.demo.factory.AutoServiceType;
 import com.example.demo.mapper.AutoMapper;
 import com.example.demo.repository.JedisAutoRepositoryImpl;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -18,16 +17,11 @@ public class JedisAutoServiceImplTest {
 
     private final AutoMapper mapper = mock(AutoMapper.class);
 
-    private JedisAutoServiceImpl service = new JedisAutoServiceImpl(repository, mapper);
+    private final JedisAutoServiceImpl service = new JedisAutoServiceImpl(repository, mapper);
 
-    private AutoModel auto;
-    private long autoId;
+    private final AutoModel auto = new AutoModel(4, "audi", "a6");
 
-    @Before
-    public void initial() {
-        auto = new AutoModel(4, "audi", "a6");
-        autoId = auto.getId();
-    }
+    private final long autoId = auto.getId();
 
 
     @Test

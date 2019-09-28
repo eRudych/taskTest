@@ -25,7 +25,7 @@ public class AutoServiceFactory {
         log.info("LogInfo: " + this.getClass().getName() + " getService");
         return mapping.computeIfAbsent(type, key ->
         {
-            log.error("LogError: " + this.getClass().getName() + " getService: - not found value for key");
+            log.error("LogError: " + this.getClass().getName() + " getService: - new IllegalArgumentException");
             throw new IllegalArgumentException(this.getClass().getName() + " getService - not found value for key");
         });
 

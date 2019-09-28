@@ -36,15 +36,12 @@ public class JedisAutoRepositoryImpl implements AutoRepository {
         log.info("LogInfo: " + this.getClass().getName() + " create: " + autoModel);
         HashMap<Long, AutoModel> map;
         if (jedis.get(KEY) == null) {
-            jedis.set(KEY, gson.toJson(new HashMap<Long, AutoModel>().put(autoModel.getId(), autoModel)));
             map = new HashMap<>();
-            map.put(autoModel.getId(), autoModel);
-            setMapInJedis(map);
         } else {
             map = getMapFromJedis();
-            map.put(autoModel.getId(), autoModel);
-            setMapInJedis(map);
         }
+        map.put(autoModel.getId(), autoModel);
+        setMapInJedis(map);
         return get(autoModel.getId());
     }
 
@@ -80,6 +77,7 @@ public class JedisAutoRepositoryImpl implements AutoRepository {
         log.info("LogInfo: " + this.getClass().getName() + " getMapFromJedis ");
         return gson.fromJson(jedis.get(KEY), TYPE);
     }
+
 
     private void setMapInJedis(HashMap<Long, AutoModel> map) {
         log.info("LogInfo: " + this.getClass().getName() + " setMapInJedis ");
