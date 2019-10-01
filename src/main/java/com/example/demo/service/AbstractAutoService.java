@@ -22,11 +22,11 @@ public abstract class AbstractAutoService implements AutoService {
     @Override
     @Transactional
     public AutoDTO create(AutoModel auto) {
-        log.info("Create auto: " + auto);
+        log.info("Create auto: {}",auto);
         try {
             return mapper.toDto(repository.create(auto));
         } catch (Exception ex) {
-            log.error("Create auto: " + auto, ex);
+            log.error("Create auto: {}, exception - {}", auto, ex);
             return null;
         }
     }
@@ -34,12 +34,12 @@ public abstract class AbstractAutoService implements AutoService {
     @Override
     @Transactional
     public AutoDTO update(AutoModel auto) {
-        log.info("Update auto: " + auto);
+        log.info("Update auto: {}", auto);
         try {
 
             repository.update(auto);
         } catch (Exception ex) {
-            log.error("Update auto: " + auto, ex);
+            log.error("Update auto: {}, exception - {}", auto, ex);
         }
         return get(auto.getId());
     }
@@ -47,11 +47,11 @@ public abstract class AbstractAutoService implements AutoService {
     @Override
     @Transactional
     public void remove(long id) {
-        log.info("Remove auto, id - " + id);
+        log.info("Remove auto, id - {}",id);
         try {
             repository.remove(id);
         } catch (Exception ex) {
-            log.error("Remove auto, id - " + id, ex);
+            log.error("Remove auto, id - {}, exception - {}", id, ex);
         }
     }
 
@@ -61,7 +61,7 @@ public abstract class AbstractAutoService implements AutoService {
         try {
             return mapper.toDto(repository.get(id));
         } catch (Exception ex) {
-            log.error("Get auto, id - " + id, ex);
+            log.error("Get auto, id - {}, exception - {}", id, ex);
             return null;
         }
     }
@@ -72,7 +72,7 @@ public abstract class AbstractAutoService implements AutoService {
         try {
             return repository.getAll().stream().map(mapper::toDto).collect(Collectors.toList());
         } catch (Exception ex) {
-            log.error("Get auto list ", ex);
+            log.error("Get auto list, exception - {} ", ex);
             return null;
         }
     }

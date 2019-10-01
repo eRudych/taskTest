@@ -33,7 +33,7 @@ public class JedisAutoRepositoryImpl implements AutoRepository {
 
     @Override
     public AutoModel create(AutoModel autoModel) {
-        log.info("Create auto: " + autoModel);
+        log.info("Create auto: {}",autoModel);
         Map<Long, AutoModel> map = getMap();
         autoModel.setId(map.size()+1);
         map.put(autoModel.getId(), autoModel);
@@ -43,13 +43,13 @@ public class JedisAutoRepositoryImpl implements AutoRepository {
 
     @Override
     public void update(AutoModel autoModel) {
-        log.info("Update auto: " + autoModel.toString());
+        log.info("Update auto: {}", autoModel.toString());
         create(autoModel);
     }
 
     @Override
     public void remove(long id) {
-        log.info("Remove auto, id - " + id);
+        log.info("Remove auto, id - {}", id);
         if (jedis.get(KEY) != null) {
             Map<Long, AutoModel> map = getMap();
             map.remove(id);
@@ -59,7 +59,7 @@ public class JedisAutoRepositoryImpl implements AutoRepository {
 
     @Override
     public AutoModel get(long id) {
-        log.info("Get auto, id - " + id);
+        log.info("Get auto, id - {}", id);
         return getMapFromJedis().get(id);
     }
 
