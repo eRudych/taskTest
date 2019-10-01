@@ -1,0 +1,28 @@
+fetch(
+  '/automobiles/STANDARD',
+  {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({'brand':'audi', 'model':'a3'})
+  }
+).then(result => result.json().then(console.log));
+
+fetch(
+  '/automobiles/JEDIS',
+  {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 'brand':'audi', 'model':'a8'})
+  }
+).then(result => result.json().then(console.log));
+
+fetch(
+  '/automobiles/STANDARD',
+  {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({'id':4,'brand':'audi', 'model':'a8' })
+  }
+).then(result => result.json().then(console.log));
+
+fetch('/automobiles/JEDIS/1', { method: 'DELETE' }).then(result => console.log(result))

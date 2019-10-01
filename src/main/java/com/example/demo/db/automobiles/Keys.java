@@ -9,6 +9,7 @@ import com.example.demo.db.automobiles.tables.records.AutoRecord;
 
 import javax.annotation.Generated;
 
+import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
 
@@ -31,6 +32,7 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
+    public static final Identity<AutoRecord, Long> IDENTITY_AUTO = Identities0.IDENTITY_AUTO;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -48,6 +50,10 @@ public class Keys {
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
+
+    private static class Identities0 {
+        public static Identity<AutoRecord, Long> IDENTITY_AUTO = Internal.createIdentity(Auto.AUTO, Auto.AUTO.ID);
+    }
 
     private static class UniqueKeys0 {
         public static final UniqueKey<AutoRecord> KEY_AUTO_PRIMARY = Internal.createUniqueKey(Auto.AUTO, "KEY_auto_PRIMARY", Auto.AUTO.ID);

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -40,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Auto extends TableImpl<AutoRecord> {
 
-    private static final long serialVersionUID = -250486176;
+    private static final long serialVersionUID = 1726759202;
 
     /**
      * The reference instance of <code>automobiles.auto</code>
@@ -58,7 +59,7 @@ public class Auto extends TableImpl<AutoRecord> {
     /**
      * The column <code>automobiles.auto.id</code>.
      */
-    public final TableField<AutoRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<AutoRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>automobiles.auto.brand</code>.
@@ -117,6 +118,14 @@ public class Auto extends TableImpl<AutoRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.<Index>asList(Indexes.AUTO_ID, Indexes.AUTO_MODEL, Indexes.AUTO_PRIMARY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<AutoRecord, Long> getIdentity() {
+        return Keys.IDENTITY_AUTO;
     }
 
     /**

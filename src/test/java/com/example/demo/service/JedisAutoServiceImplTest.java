@@ -3,30 +3,30 @@ package com.example.demo.service;
 import com.example.demo.entity.AutoModel;
 import com.example.demo.factory.AutoServiceType;
 import com.example.demo.mapper.AutoMapper;
-import com.example.demo.repository.AutoRepositoryImpl;
+import com.example.demo.repository.JedisAutoRepositoryImpl;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-public class AutoServiceImplTest {
+public class JedisAutoServiceImplTest {
 
-    private final AutoRepositoryImpl repository = mock(AutoRepositoryImpl.class);
+    private final JedisAutoRepositoryImpl repository = mock(JedisAutoRepositoryImpl.class);
 
     private final AutoMapper mapper = mock(AutoMapper.class);
 
-    private final AutoServiceImpl service = new AutoServiceImpl(repository, mapper);
+    private final JedisAutoServiceImpl service = new JedisAutoServiceImpl(repository, mapper);
 
-    private final AutoModel auto = new AutoModel(3, "audi", "a4");
+    private final AutoModel auto = new AutoModel(4, "audi", "a6");
 
     private final long autoId = auto.getId();
 
 
     @Test
     public void getType() {
-        assertThat(service.getType(), is(AutoServiceType.STANDARD));
+        assertThat(service.getType(), is(AutoServiceType.JEDIS));
     }
 
     @Test
@@ -58,4 +58,5 @@ public class AutoServiceImplTest {
         service.getAll();
         verify(repository).getAll();
     }
+
 }
