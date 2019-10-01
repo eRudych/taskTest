@@ -11,7 +11,7 @@ import java.util.List;
 
 import static com.example.demo.db.automobiles.tables.Auto.AUTO;
 
-@Repository()
+@Repository
 @RequiredArgsConstructor
 @Slf4j
 public class AutoRepositoryImpl implements AutoRepository {
@@ -23,19 +23,19 @@ public class AutoRepositoryImpl implements AutoRepository {
                 .values(autoModel.getBrand(), autoModel.getModel())
                 .returning(AUTO.ID)
                 .fetchOne();
-        log.info("LogInfo: " + this.getClass().getName() + " insert: " + autoModel.toString());
+        log.info("LogInfo: " + this.getClass() + " insert: " + autoModel.toString());
         return authorRecord.getValue(AUTO.ID);
     }
 
     @Override
     public AutoModel create(AutoModel autoModel) {
-        log.info("LogInfo: " + this.getClass().getName() + " create: " + autoModel.toString());
+        log.info("LogInfo: " + this.getClass() + " create: " + autoModel.toString());
         return get(insert(autoModel));
     }
 
     @Override
     public void update(AutoModel autoModel) {
-        log.info("LogInfo: " + this.getClass().getName() + " update: " + autoModel.toString());
+        log.info("LogInfo: " + this.getClass() + " update: " + autoModel.toString());
         dsl.update(AUTO)
                 .set(AUTO.BRAND, autoModel.getBrand())
                 .set(AUTO.MODEL, autoModel.getModel())
@@ -44,14 +44,14 @@ public class AutoRepositoryImpl implements AutoRepository {
 
     @Override
     public void remove(long id) {
-        log.info("LogInfo: " + this.getClass().getName() + " remove: " + id);
+        log.info("LogInfo: " + this.getClass() + " remove: " + id);
         dsl.deleteFrom(AUTO)
                 .where(AUTO.ID.eq(id)).execute();
     }
 
     @Override
     public AutoModel get(long id) {
-        log.info("LogInfo: " + this.getClass().getName() + " get: " + id);
+        log.info("LogInfo: " + this.getClass() + " get: " + id);
         return dsl.selectFrom(AUTO)
                 .where(AUTO.ID.eq(id))
                 .fetchOneInto(AutoModel.class);
@@ -59,7 +59,7 @@ public class AutoRepositoryImpl implements AutoRepository {
 
     @Override
     public List<AutoModel> getAll() {
-        log.info("LogInfo: " + this.getClass().getName() + " getAll");
+        log.info("LogInfo: " + this.getClass() + " getAll");
         return dsl.selectFrom(AUTO)
                 .fetchInto(AutoModel.class);
     }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AutoDTO implements BaseDTO {
+public class AutoDTO {
     private long id;
     private String brand;
     private String model;

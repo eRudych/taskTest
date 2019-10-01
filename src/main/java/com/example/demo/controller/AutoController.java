@@ -23,31 +23,31 @@ public class AutoController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public AutoDTO create(@RequestBody AutoDTO autoDTO, @PathVariable("service") AutoServiceType serviceType) {
-        log.info("LogInfo: " + this.getClass().getName() + " create");
+        log.info("LogInfo: " + this.getClass() + " create");
         return autoServiceFactory.getService(serviceType).create(mapper.toEntity(autoDTO));
     }
 
     @GetMapping("/{id}")
     public AutoDTO get(@PathVariable("id") long id, @PathVariable("service") AutoServiceType serviceType) {
-        log.info("LogInfo: class " + this.getClass().getName() + " get");
+        log.info("LogInfo: " + this.getClass() + " get");
         return autoServiceFactory.getService(serviceType).get(id);
     }
 
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public AutoDTO update(@RequestBody AutoDTO autoDTO, @PathVariable("service") AutoServiceType serviceType) {
-        log.info("LogInfo: class " + this.getClass().getName() + " update");
+        log.info("LogInfo: " + this.getClass() + " update");
         return autoServiceFactory.getService(serviceType).update(mapper.toEntity(autoDTO));
     }
 
     @DeleteMapping("/{id}")
     public void remove(@PathVariable("id") long id, @PathVariable("service") AutoServiceType serviceType) {
-        log.info("LogInfo: class " + this.getClass().getName() + " remove");
+        log.info("LogInfo: " + this.getClass() + " remove");
         autoServiceFactory.getService(serviceType).remove(id);
     }
 
     @GetMapping
     public List getAll(@PathVariable("service") AutoServiceType serviceType) {
-        log.info("LogInfo: class " + this.getClass().getName() + " getAll");
+        log.info("LogInfo: " + this.getClass() + " getAll");
         return autoServiceFactory.getService(serviceType).getAll();
     }
 }

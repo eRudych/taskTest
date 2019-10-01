@@ -1,9 +1,6 @@
 package com.example.demo.mapper;
 
-import com.example.demo.dto.BaseDTO;
-import com.example.demo.entity.BaseEntity;
-
-public interface Mapper<Entity extends BaseEntity, DTO extends BaseDTO> {
+public interface Mapper<Entity, DTO> {
 
     Entity toEntity(DTO dto);
 

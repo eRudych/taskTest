@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AutoServiceImpl extends AbstractAutoService {
+
     public AutoServiceImpl(@Qualifier("autoRepositoryImpl") AutoRepository repository, AutoMapper mapper) {
         super(repository, mapper);
     }

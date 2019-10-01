@@ -33,13 +33,8 @@ public class JedisAutoRepositoryImpl implements AutoRepository {
 
     @Override
     public AutoModel create(AutoModel autoModel) {
-        log.info("LogInfo: " + this.getClass().getName() + " create: " + autoModel);
-        HashMap<Long, AutoModel> map;
-        if (jedis.get(KEY) == null) {
-            map = new HashMap<>();
-        } else {
-            map = getMapFromJedis();
-        }
+        log.info("LogInfo: " + this.getClass() + " create: " + autoModel);
+        Map<Long, AutoModel> map = getMap();
         map.put(autoModel.getId(), autoModel);
         setMapInJedis(map);
         return get(autoModel.getId());
@@ -47,15 +42,15 @@ public class JedisAutoRepositoryImpl implements AutoRepository {
 
     @Override
     public void update(AutoModel autoModel) {
-        log.info("LogInfo: " + this.getClass().getName() + " update: " + autoModel.toString());
+        log.info("LogInfo: " + this.getClass() + " update: " + autoModel.toString());
         create(autoModel);
     }
 
     @Override
     public void remove(long id) {
-        log.info("LogInfo: " + this.getClass().getName() + " remove: " + id);
+        log.info("LogInfo: " + this.getClass() + " remove: " + id);
         if (jedis.get(KEY) != null) {
-            HashMap<Long, AutoModel> map = getMapFromJedis();
+            Map<Long, AutoModel> map = getMap();
             map.remove(id);
             setMapInJedis(map);
         }
@@ -63,24 +58,33 @@ public class JedisAutoRepositoryImpl implements AutoRepository {
 
     @Override
     public AutoModel get(long id) {
-        log.info("LogInfo: " + this.getClass().getName() + " get: " + id);
+        log.info("LogInfo: " + this.getClass() + " get: " + id);
         return getMapFromJedis().get(id);
     }
 
     @Override
     public List<AutoModel> getAll() {
-        log.info("LogInfo: " + this.getClass().getName() + " getAll ");
+        log.info("LogInfo: " + this.getClass() + " getAll");
         return new ArrayList<>(getMapFromJedis().values());
     }
 
-    private HashMap<Long, AutoModel> getMapFromJedis() {
-        log.info("LogInfo: " + this.getClass().getName() + " getMapFromJedis ");
+    private Map<Long, AutoModel> getMapFromJedis() {
+        log.info("LogInfo: " + this.getClass() + " getMapFromJedis");
         return gson.fromJson(jedis.get(KEY), TYPE);
     }
 
 
-    private void setMapInJedis(HashMap<Long, AutoModel> map) {
-        log.info("LogInfo: " + this.getClass().getName() + " setMapInJedis ");
+    private void setMapInJedis(Map<Long, AutoModel> map) {
+        log.info("LogInfo: " + this.getClass() + " setMapInJedis");
         jedis.set(KEY, gson.toJson(map));
+    }
+
+    private Map<Long, AutoModel> getMap() {
+        log.info("LogInfo: " + this.getClass() + " getMap");
+        if (jedis.get(KEY) == null) {
+            return new HashMap<>();
+        } else {
+            return getMapFromJedis();
+        }
     }
 }

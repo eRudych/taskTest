@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @RedisHash("AutoModel")
-public class AutoModel implements Serializable, BaseEntity {
+public class AutoModel implements Serializable {
     @Id
     private long id;
     private String brand;
