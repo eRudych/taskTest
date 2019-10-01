@@ -17,12 +17,12 @@ public class AutoMapper implements Mapper<AutoModel, AutoDTO> {
     private final ModelMapper mapper;
 
     public AutoModel toEntity(AutoDTO dto) {
-        log.info("LogInfo: " + this.getClass() + " toEntity");
+        log.info("Mapper - toEntity");
         return Objects.isNull(dto) ? null : mapper.map(dto, AutoModel.class);
     }
 
     public AutoDTO toDto(AutoModel entity) {
-        log.info("LogInfo: " + this.getClass() + " toDto");
+        log.info("Mapper - toDto");
         return Objects.isNull(entity) ? null : mapper.map(entity, AutoDTO.class);
     }
 }

@@ -22,11 +22,11 @@ public class AutoServiceFactory {
     }
 
     public AutoService getService(AutoServiceType type) {
-        log.info("LogInfo: " + this.getClass() + " getService");
+        log.info("Get auto service");
         return mapping.computeIfAbsent(type, key ->
         {
-            log.error("LogError: " + this.getClass() + " getService: - new IllegalArgumentException");
-            throw new IllegalArgumentException(this.getClass() + " getService - not found value for key");
+            log.error("Get auto service: - new IllegalArgumentException");
+            throw new IllegalArgumentException(this.getClass() + " getService - not found value for key - "+type);
         });
 
     }

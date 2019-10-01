@@ -23,19 +23,19 @@ public class AutoRepositoryImpl implements AutoRepository {
                 .values(autoModel.getBrand(), autoModel.getModel())
                 .returning(AUTO.ID)
                 .fetchOne();
-        log.info("LogInfo: " + this.getClass() + " insert: " + autoModel.toString());
+        log.info("Insert into db: " + autoModel.toString());
         return authorRecord.getValue(AUTO.ID);
     }
 
     @Override
     public AutoModel create(AutoModel autoModel) {
-        log.info("LogInfo: " + this.getClass() + " create: " + autoModel.toString());
+        log.info("Create auto: " + autoModel.toString());
         return get(insert(autoModel));
     }
 
     @Override
     public void update(AutoModel autoModel) {
-        log.info("LogInfo: " + this.getClass() + " update: " + autoModel.toString());
+        log.info("Update auto: " + autoModel.toString());
         dsl.update(AUTO)
                 .set(AUTO.BRAND, autoModel.getBrand())
                 .set(AUTO.MODEL, autoModel.getModel())
@@ -44,14 +44,14 @@ public class AutoRepositoryImpl implements AutoRepository {
 
     @Override
     public void remove(long id) {
-        log.info("LogInfo: " + this.getClass() + " remove: " + id);
+        log.info("Remove auto, id - " + id);
         dsl.deleteFrom(AUTO)
                 .where(AUTO.ID.eq(id)).execute();
     }
 
     @Override
     public AutoModel get(long id) {
-        log.info("LogInfo: " + this.getClass() + " get: " + id);
+        log.info("Get auto, id - " + id);
         return dsl.selectFrom(AUTO)
                 .where(AUTO.ID.eq(id))
                 .fetchOneInto(AutoModel.class);
@@ -59,7 +59,7 @@ public class AutoRepositoryImpl implements AutoRepository {
 
     @Override
     public List<AutoModel> getAll() {
-        log.info("LogInfo: " + this.getClass() + " getAll");
+        log.info("Get auto list");
         return dsl.selectFrom(AUTO)
                 .fetchInto(AutoModel.class);
     }

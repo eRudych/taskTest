@@ -22,11 +22,11 @@ public abstract class AbstractAutoService implements AutoService {
     @Override
     @Transactional
     public AutoDTO create(AutoModel auto) {
-        log.info("LogInfo: " + this.getClass() + " create: " + auto);
+        log.info("Create auto: " + auto);
         try {
             return mapper.toDto(repository.create(auto));
         } catch (Exception ex) {
-            log.error("LogError: " + this.getClass() + " create: " + auto, ex);
+            log.error("Create auto: " + auto, ex);
             return null;
         }
     }
@@ -34,12 +34,12 @@ public abstract class AbstractAutoService implements AutoService {
     @Override
     @Transactional
     public AutoDTO update(AutoModel auto) {
-        log.info("LogInfo: " + this.getClass() + " update: " + auto);
+        log.info("Update auto: " + auto);
         try {
 
             repository.update(auto);
         } catch (Exception ex) {
-            log.error("LogError: " + this.getClass() + " update: " + auto, ex);
+            log.error("Update auto: " + auto, ex);
         }
         return get(auto.getId());
     }
@@ -47,32 +47,32 @@ public abstract class AbstractAutoService implements AutoService {
     @Override
     @Transactional
     public void remove(long id) {
-        log.info("LogInfo: " + this.getClass() + " remove: " + id);
+        log.info("Remove auto, id - " + id);
         try {
             repository.remove(id);
         } catch (Exception ex) {
-            log.error("LogError: " + this.getClass() + " remove: " + id, ex);
+            log.error("Remove auto, id - " + id, ex);
         }
     }
 
     @Override
     public AutoDTO get(long id) {
-        log.info("LogInfo: " + this.getClass() + " get: " + id);
+        log.info("Get auto, id - " + id);
         try {
             return mapper.toDto(repository.get(id));
         } catch (Exception ex) {
-            log.error("LogError: " + this.getClass() + " get: " + id, ex);
+            log.error("Get auto, id - " + id, ex);
             return null;
         }
     }
 
     @Override
     public List<AutoDTO> getAll() {
-        log.info("LogInfo: " + this.getClass() + " getAll");
+        log.info("Get auto list");
         try {
             return repository.getAll().stream().map(mapper::toDto).collect(Collectors.toList());
         } catch (Exception ex) {
-            log.error("LogError: " + this.getClass() + " getAll", ex);
+            log.error("Get auto list ", ex);
             return null;
         }
     }
